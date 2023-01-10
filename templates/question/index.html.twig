@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Question index{% endblock %}
+
+{% block body %}
+    <h1>Question index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>CreateDateTime</th>
+                <th>Text</th>
+                <th>TrueAnswer</th>
+                <th>WrongAnswer1</th>
+                <th>WrongAnswer2</th>
+                <th>WrongAnswer3</th>
+                <th>Type</th>
+                <th>AttachmentPath</th>
+                <th>Valid</th>
+                <th>IsDeleted</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for question in questions %}
+            <tr>
+                <td>{{ question.id }}</td>
+                <td>{{ question.createDateTime ? question.createDateTime|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ question.text }}</td>
+                <td>{{ question.trueAnswer }}</td>
+                <td>{{ question.wrongAnswer1 }}</td>
+                <td>{{ question.wrongAnswer2 }}</td>
+                <td>{{ question.wrongAnswer3 }}</td>
+                <td>{{ question.type }}</td>
+                <td>{{ question.attachmentPath }}</td>
+                <td>{{ question.valid ? 'Yes' : 'No' }}</td>
+                <td>{{ question.isDeleted ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_question_show', {'id': question.id}) }}">show</a>
+                    <a href="{{ path('app_question_edit', {'id': question.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_question_new') }}">Create new</a>
+{% endblock %}
