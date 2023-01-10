@@ -15,7 +15,7 @@ class Answer
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $createDateTime = null;
+    private ?\DateTimeInterface $submittedDateTime = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $result = null;
@@ -37,14 +37,14 @@ class Answer
         return $this->id;
     }
 
-    public function getCreateDateTime(): ?\DateTimeInterface
+    public function getSubmittedDateTime(): ?\DateTimeInterface
     {
-        return $this->createDateTime;
+        return $this->submittedDateTime;
     }
 
-    public function setCreateDateTime(?\DateTimeInterface $createDateTime): self
+    public function setSubmittedDateTime(?\DateTimeInterface $submittedDateTime): self
     {
-        $this->createDateTime = $createDateTime;
+        $this->submittedDateTime = $submittedDateTime;
 
         return $this;
     }
