@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon profil{% endblock %}
+
+{% block body %}
+    <div class="container mt-3 rounded border border-primary bg-info d-flex flex-wrap justify-content-around"
+         style="color: white">
+
+        <div><p> Score du jour</p>
+            <p>{{ user.dailyScore }}</p></div>
+        <div><p> Score total</p>
+            <p>{{ user.totalScore }}</p></div>
+
+    </div>
+    <div class="container mt-3 rounded border border-primary bg-light ">
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Nom d'utilisateur</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>Adresse email</th>
+                <td>{{ user.mail }}</td>
+            </tr>
+            <tr>
+                <th>Date de naissance</th>
+                <td>{{ user.birthDate ? user.birthDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Prénom</th>
+                <td>{{ user.firstName }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ user.lastName }}</td>
+            </tr>
+            <tr>
+                <th>Ville</th>
+                <td>{{ user.city }}</td>
+            </tr>
+            <tr>
+                <th>Pays de résidence</th>
+                <td>{{ user.country }}</td>
+            </tr>
+            </tbody>
+        </table>
+        {#        TODO faire l'espace modifier #}
+        {#        <a href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a> #}
+    </div>
+
+
+{% endblock %}
