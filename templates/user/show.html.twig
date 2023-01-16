@@ -25,7 +25,7 @@
             </tr>
             <tr>
                 <th>Date de naissance</th>
-                <td>{{ user.birthDate ? user.birthDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ user.birthDate ? user.birthDate|date('Y-m-d H:i:s')|date("d/m/Y") : '' }}</td>
             </tr>
             <tr>
                 <th>Prénom</th>
@@ -41,12 +41,12 @@
             </tr>
             <tr>
                 <th>Pays de résidence</th>
-                <td>{{ user.country }}</td>
+                <td>{{ user.country|country_name }}</td>
             </tr>
             </tbody>
         </table>
         {#        TODO faire l'espace modifier #}
-        {#        <a href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a> #}
+                <a href="{{ path('app_user_edit', {'id': app.user.id}) }}">Modifier</a>
     </div>
 
 

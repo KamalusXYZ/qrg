@@ -1,4 +1,12 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+                                {{ form_row(form.username) }}
+                                {{ form_row(form.lastName) }}
+                                {{ form_row(form.firstName) }}
+                                {{ form_row(form.mail) }}
+                                {{ form_row(form.city) }}
+                                {{ form_row(form.country) }}
+                                {{ form_row(form.birthDate, {
+                                    'label_attr': {'class': 'label_birthdate'}
+                                }) }}
+<button type="submit" class="btn btn-lg btn-primary mt-3">ENREGISTRER</button>
 {{ form_end(form) }}
