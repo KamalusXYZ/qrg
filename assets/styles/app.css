@@ -1,4 +1,7 @@
 /****** LOGIN & REGISTER *******/
+a{
+    text-decoration: none;
+}
 .login-container{
     width: 100%;
     top: 30%;

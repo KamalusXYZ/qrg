@@ -1,26 +1,39 @@
-<div class="d-flex justify-content-end bg-primary">
-    <div class="px-5"><a href="{{ path('app_user_show', {'id': app.user.id}) }}"><img src="{{ asset('images/profil.svg') }}" alt=""></a></div>
+<div class="d-flex justify-content-end bg-primary fw-bold">
+<div class="mx-5">
+        <a class="text-decoration-none" href="{{ path('app_user_show', {'id': app.user.id}) }}"><img src="{{ asset('images/profil.svg') }}" alt="">    </a>
+        <a class="fw-bold align-middle" href="{{ path('app_user_show', {'id': app.user.id}) }}" style="color: white">{{ app.user.username|upper }}</a>
+    <a href="{{ path('app_logout') }}"><img src="{{ asset('images/logout.svg') }}" alt="Déconnexion" title="Se déconnecter" class="mx-3"></a>
+</div>
+
+
+
 </div>
 <div class="container">
-<p class="text-center h1">Quiz Retro Gaming</p>
+    <p class="text-center h1">Quiz Retro Gaming</p>
     <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Accueil</a>
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+               aria-selected="true">Accueil</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Jouer</a>
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+               aria-selected="false">Jouer</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Règle du jeu</a>
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+               aria-selected="false">Règle du jeu</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Rejoindre la team</a>
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+               aria-selected="false">Rejoindre la team</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Classements</a>
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+               aria-selected="false">Classements</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Qui sommes nous?</a>
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+               aria-selected="false">Qui sommes nous?</a>
         </li>
     </ul>
 
