@@ -75,4 +75,19 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/{id}/promote', name: 'app_user_promote_publisher', methods: ['GET', 'POST'])]
+    public function promotePublisher(int $id, UserRepository $userRepository): Response{
+        $userRepository->save($userRepository->find($id)->setRoles(['ROLE_PUBLISHER']), true);
+
+        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/revoke', name: 'app_user_revoke_publisher', methods: ['GET', 'POST'])]
+    public function revokePublisher(int $id, UserRepository $userRepository): Response{
+        $userRepository->save($userRepository->find($id)->setRoles(['ROLE_USER']), true);
+
+        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+    }
+
 }

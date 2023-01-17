@@ -3,61 +3,42 @@
 {% block title %}User index{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
-
-    <table class="table">
-        <thead>
+    <div class="container">
+        <h1>Liste des utilisateurs</h1>
+        <table class="table">
+            <thead>
             <tr>
-                <th>Id</th>
+
                 <th>Username</th>
                 <th>Roles</th>
-                <th>Password</th>
-                <th>CreateDateTime</th>
-                <th>Mail</th>
-                <th>VictoryNb</th>
-                <th>TotalScore</th>
-                <th>DailyScore</th>
-                <th>BirthDate</th>
-                <th>FirstName</th>
-                <th>LastName</th>
-                <th>City</th>
-                <th>Country</th>
-                <th>AvatarFullPath</th>
-                <th>IsDeleted</th>
+
                 <th>actions</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
-                <td>{{ user.createDateTime ? user.createDateTime|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ user.mail }}</td>
-                <td>{{ user.victoryNb }}</td>
-                <td>{{ user.totalScore }}</td>
-                <td>{{ user.dailyScore }}</td>
-                <td>{{ user.birthDate ? user.birthDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ user.firstName }}</td>
-                <td>{{ user.lastName }}</td>
-                <td>{{ user.city }}</td>
-                <td>{{ user.country }}</td>
-                <td>{{ user.avatarFullPath }}</td>
-                <td>{{ user.isDeleted ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="17">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.roles[0]|replace({ROLE_ADMIN: "Admin", ROLE_USER: "Joueur", ROLE_PUBLISHER: "Publicateur" }) }}</td>
 
-    <a href="{{ path('app_user_new') }}">Create new</a>
+                    <td>|
+                        <a href="{{ path('app_user_show', {'id': user.id}) }}">Voir</a>|
+                        <a href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a>|
+                        {% if user.roles[0] == "ROLE_USER" %}
+                            <a href="{{ path('app_user_promote_publisher', {'id': user.id}) }}">Promouvoir
+                                publicateur</a>|
+                        {% elseif user.roles[0] == "ROLE_PUBLISHER" %}
+                            <a href="{{ path('app_user_revoke_publisher', {'id': user.id}) }}">Destituer
+                                publicateur</a>|
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="17">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

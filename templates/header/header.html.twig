@@ -3,13 +3,16 @@
         <a class="text-decoration-none" href="{{ path('app_user_show', {'id': app.user.id}) }}"><img src="{{ asset('images/profil.svg') }}" alt="">    </a>
         <a class="fw-bold align-middle" href="{{ path('app_user_show', {'id': app.user.id}) }}" style="color: white">{{ app.user.username|upper }}</a>
     <a href="{{ path('app_logout') }}"><img src="{{ asset('images/logout.svg') }}" alt="Déconnexion" title="Se déconnecter" class="mx-3"></a>
+    {% if app.user.roles[0] == "ROLE_ADMIN" %}
+    <button class="btn btn-success"><a style="color: white" href="{{ path('app_user_index') }}">Reglages administratif</a></button>
+    {% endif %}
 </div>
 
 
 
 </div>
 <div class="container">
-    <p class="text-center h1">Quiz Retro Gaming</p>
+    <p class="text-center h1"><a href="{{ path('app_main') }}">Quiz Retro Gaming</a></p>
     <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
