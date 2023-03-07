@@ -1,13 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Question{% endblock %}
+{% block title %}Modification de question{% endblock %}
 
 {% block body %}
-    <h1>Edit Question</h1>
+<div class="container mt-3 rounded border border-primary bg-light ">
+    <h1>Modifier la question n° {{ question.id }}</h1>
 
-    {{ include('question/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('question/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
     <a href="{{ path('app_question_index') }}">back to list</a>
 
     {{ include('question/_delete_form.html.twig') }}
+</div>
 {% endblock %}

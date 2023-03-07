@@ -3,60 +3,58 @@
 {% block title %}Question{% endblock %}
 
 {% block body %}
-    <h1>Question</h1>
-
-    <table class="table">
-        <tbody>
+    <div class="container mt-3 rounded border border-primary bg-light ">
+        <h2>Détail de question n° {{ question.id }}</h2>
+        <table class="table">
+            <tbody>
             <tr>
-                <th>Id</th>
+                <th>Numéro de la question</th>
                 <td>{{ question.id }}</td>
             </tr>
             <tr>
-                <th>CreateDateTime</th>
+                <th>Date de création</th>
                 <td>{{ question.createDateTime ? question.createDateTime|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>Text</th>
+                <th>Texte de la question</th>
                 <td>{{ question.text }}</td>
             </tr>
             <tr>
-                <th>TrueAnswer</th>
+                <th>Bonne réponse</th>
                 <td>{{ question.trueAnswer }}</td>
             </tr>
             <tr>
-                <th>WrongAnswer1</th>
+                <th>Première mauvaise réponse</th>
                 <td>{{ question.wrongAnswer1 }}</td>
             </tr>
             <tr>
-                <th>WrongAnswer2</th>
+                <th>Deuxieme mauvaise réponse</th>
                 <td>{{ question.wrongAnswer2 }}</td>
             </tr>
             <tr>
-                <th>WrongAnswer3</th>
+                <th>Troisième mauvaise réponse</th>
                 <td>{{ question.wrongAnswer3 }}</td>
             </tr>
             <tr>
-                <th>Type</th>
+                <th>Type de question</th>
                 <td>{{ question.type }}</td>
             </tr>
             <tr>
-                <th>AttachmentPath</th>
+                <th>Fichier attaché à la question (image, vidéo, audio, etc...</th>
                 <td>{{ question.attachmentPath }}</td>
             </tr>
             <tr>
-                <th>Valid</th>
+                <th>Validé</th>
                 <td>{{ question.valid ? 'Yes' : 'No' }}</td>
             </tr>
-            <tr>
-                <th>IsDeleted</th>
-                <td>{{ question.isDeleted ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 
-    <a href="{{ path('app_question_index') }}">back to list</a>
+        <a href="{{ path('app_question_edit', {'id': question.id}) }}">Modfier</a>
 
-    <a href="{{ path('app_question_edit', {'id': question.id}) }}">edit</a>
-
-    {{ include('question/_delete_form.html.twig') }}
+        {{ include('question/_delete_form.html.twig') }}
+    </div>
+    <div class="container">
+        <img src="{{ asset('uploads/images/' ~ question.attachmentPath) }}" alt="image">
+    </div>
 {% endblock %}

@@ -58,6 +58,12 @@ class Question
     #[ORM\OneToMany(mappedBy: 'question', targetEntity: Answer::class)]
     private Collection $answers;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $attachmentModified = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $pixelationRate = null;
+
     public function __construct()
     {
         $this->games = new ArrayCollection();
@@ -289,6 +295,30 @@ class Question
                 $answer->setQuestion(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAttachmentModified(): ?string
+    {
+        return $this->attachmentModified;
+    }
+
+    public function setAttachmentModified(?string $attachmentModified): self
+    {
+        $this->attachmentModified = $attachmentModified;
+
+        return $this;
+    }
+
+    public function getPixelationRate(): ?int
+    {
+        return $this->pixelationRate;
+    }
+
+    public function setPixelationRate(?int $pixelationRate): self
+    {
+        $this->pixelationRate = $pixelationRate;
 
         return $this;
     }

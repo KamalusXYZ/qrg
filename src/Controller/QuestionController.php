@@ -24,6 +24,16 @@ class QuestionController extends AbstractController
     #[Route('/new', name: 'app_question_new', methods: ['GET', 'POST'])]
     public function new(Request $request, QuestionRepository $questionRepository): Response
     {
+        // if (trim($_FILES["fileUpload"]["tmp_name"]) != "" and $_FILES["fileUpload"]["type"] == "images/png") {
+
+        //     move_uploaded_file($_FILES["fileUpload"]["tmp_name"], $uploadPath . basename("image.".$extension[1]));
+        //     $im = imagecreatefrompng("C:\wamp64\www\qrg\public\uploads\images\image.".$extension[1]);
+        //     imagefilter($im,   IMG_FILTER_PIXELATE, $pixelRate );
+        //     imagepng($im,"C:\wamp64\www\qrg\public\uploads\images\image2.png" );
+        //     $questionRepository->save($question, true);
+
+        // }
+
         $question = new Question();
         $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);

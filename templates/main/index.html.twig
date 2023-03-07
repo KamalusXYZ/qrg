@@ -3,8 +3,28 @@
 {% block title %}Home | QuizRetroGaming{% endblock %}
 
 {% block body %}
-    <div class="container">
+    <div style="image-rendering: smooth;" class="container flex-wrap justify-content-center align-items-center d-flex">
+        <form action="{{ path('app_upload') }}" method="post" enctype="multipart/form-data" name="frmMain">
+
+            <p>Téléverser un fichier</p>
+            <p><input name="fileUpload" type="file"></p>
+
+            <p><input type="submit" name="Submit" value="Envoyer"></p>
+        </form>
 
     </div>
+    <div class="container">
+        <form>
+            <input type="range" name="pixel" min="0" max="25" step="3" id="pixel" value="{{ pixelRate }}">
+            <input type="submit" formaction="{{ path('app_modify') }}">
+
+        </form>
+    </div>
+
+    <div class="container">
+        <img src="{{ asset('uploads/images/image2.png') }}" alt="error">
+    </div>
+
+
 
 {% endblock %}
