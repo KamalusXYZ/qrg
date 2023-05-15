@@ -40,21 +40,47 @@
                 <td>{{ question.type }}</td>
             </tr>
             <tr>
-                <th>Fichier attaché à la question (image, vidéo, audio, etc...</th>
-                <td>{{ question.attachmentPath }}</td>
+                <th>Fichier média (et affichage du média)</th>
+                <td>{{ uploadedFilesPath }}{{ question.attachmentPath }} </br>
+                <img style="width:150px" src="{{ uploadedFilesPath }}{{ question.attachmentPath }}" alt="image">
+                </td> 
+                
+                    
+            
             </tr>
             <tr>
                 <th>Validé</th>
-                <td>{{ question.valid ? 'Yes' : 'No' }}</td>
+                <td>{{ question.valid ? 'Oui' : '' }}
+                {% if (question.valid == false) and (question.denied == null) %}
+                <button class="btn btn-success">
+                <a style="color: white" href="{{ path('app_validate_question', {'id': question.id}) }}">Valider la question?</a>
+                </button>
+                <button class="btn btn-danger" onclick="displayReasonRefusal()">
+                {# DANS LE BUT DE AJOUTER UN MOTIF}
+                {# {% block javascripts %}
+                    <script type="text/javascript">
+                        function displayReasonRefusal() {
+                        let data = window.prompt('Quelle est la réponse ?');
+                        const Http = new XMLHttpRequest();
+                        const url='https://127.0.0.1:8000/refuse/';
+                        Http.open("POST", url);
+                        Http.send(data);
+                                                        } 
+                    </script>
+                {% endblock %} #}
+
+                <a style="color: white" href="{{ path('app_refuse_question', {'id': question.id}) }}">Refuser la question?</a>
+                </button>
+                {% endif %}
+
+                </td>
             </tr>
             </tbody>
         </table>
+        <a href="{{ path('app_question_edit', {'id': question.id}) }}">Modifier</a>
 
-        <a href="{{ path('app_question_edit', {'id': question.id}) }}">Modfier</a>
-
-        {{ include('question/_delete_form.html.twig') }}
     </div>
     <div class="container">
-        <img src="{{ asset('uploads/images/' ~ question.attachmentPath) }}" alt="image">
+
     </div>
 {% endblock %}

@@ -6,8 +6,8 @@
            style="color: white">{{ app.user.username|upper }}</a>
         <a href="{{ path('app_logout') }}"><img src="{{ asset('images/logout.svg') }}" alt="Déconnexion"
                                                 title="Se déconnecter" class="mx-3"></a>
-        {% if app.user.roles[0] == "ROLE_ADMIN" %}
-            <button class="btn btn-success"><a style="color: white" href="{{ path('app_user_index') }}">Reglages
+        {% if (app.user.roles[0] == "ROLE_PUBLISHER") or (app.user.roles[0] == "ROLE_ADMIN") %}
+            <button class="btn btn-success"><a style="color: white" href="{{ path('app_admin') }}">Reglages
                     administratif</a></button>
         {% endif %}
         {% if 'ROLE_PUBLISHER' in app.user.roles %}

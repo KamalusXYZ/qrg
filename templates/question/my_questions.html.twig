@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Question | Liste à contrôler{% endblock %}
+
+{% block body %}
+
+<div class="container">
+<div class="d-flex justify-content-center">
+    <button class="btn m-2">Toutes mes questions</button>
+    <button disabled  class="btn">Mes questions validées</button>
+    <button disabled class="btn">Mes questions refusées</button>
+    <button disabled class="btn">Mes question en attente de validation</button>
+</div>
+    <h1>Toutes mes questions</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>N°</th>
+                <th>Date de soumission</th>
+                <th>Question</th>
+                <th>Validé?</th>
+                <th>Traité?</th>
+                <th>Refusé</th>
+                <th>Publieur</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for question in questions %}
+            <tr>
+                <td>{{ question.id }}</td>
+                <td>{{ question.createDateTime ? question.createDateTime|date('Y-m-d') : '' }}</td>
+                <td>{{ question.text }}</td>
+                <td>{{ question.valid ? 'Oui' : 'Non' }}</td>
+                <td>{{ question.checked ? 'Oui' : 'Non' }}</td>
+                <td style="color:red;font-weight:bold;">{% if question.denied == true %}Refusé{% endif %}
+                </td>
+                <td>{% for user in question.users %}
+                    {{user.username}}
+                    {% endfor %}</td>
+                <td>
+                    <a href="{{ path('app_question_show', {'id': question.id}) }}">Voir</a>
+                    <a href="{{ path('app_question_edit', {'id': question.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">Aucune question</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a class="btn btn-primary" href="{{ path('app_admin') }}">Retour</a>
+</div>
+
+{% endblock %}

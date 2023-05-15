@@ -10,8 +10,10 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\FormEvent;
 
 class QuestionType extends AbstractType
 {
@@ -53,33 +55,38 @@ class QuestionType extends AbstractType
             ->add('text',TextareaType::class, [
                 'attr' => ['class' => 'form-control mb-3'],
                 'label' => 'Contenu de la question',
+                'empty_data' => 'Question xxx',
+                'required'=>false
                             ])
             ->add('trueAnswer',TextType::class, [
                 'attr' => ['class' => 'form-control mb-3'],
                 'label' => 'Bonne réponse',
+                'empty_data' => 'Réponse xxx',
+                'required'=>false
             ])
             ->add('wrongAnswer1',TextType::class, [
                 'attr' => ['class' => 'form-control mb-3'],
                 'label' => '1ère mauvaise réponse',
+                'empty_data' => 'Réponse xxx',
+                'required'=>false
             ])
             ->add('wrongAnswer2',TextType::class, [
                 'attr' => ['class' => 'form-control mb-3'],
                 'label' => '2ème mauvaise réponse',
+                'empty_data' => 'Réponse xxx',
+                'required'=>false
             ])
             ->add('wrongAnswer3',TextType::class, [
                 'attr' => ['class' => 'form-control mb-3'],
                 'label' => '3ème mauvaise réponse',
+                'empty_data' => 'Réponse xxx',
+                'required'=>false
             ])
+            // ->add('tags')
+            ;
 
-//            ->add('attachmentPath')
-//            ->add('valid')
-//            ->add('isDeleted')
-//            ->add('games')
-//            ->add('tags')
-//            ->add('users')
-        ;
     }
-
+    
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

@@ -1,11 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouvelle question + {% endblock %}
+{% block title %}Nouvelle Question{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h1 class="mb-5">Ajouter une nouvelle question</h1>
-        {{ include('question/_form.html.twig') }}
-    </div>
+<div class='container'>
+    <h1>Créer une nouvelle question</h1>
+                {% if question.attachmentPath %}
+                <img src="{{ question.imagePath }} " height="100">
+            {% endif %}
 
+    {{ include('question/_form.html.twig') }}
+    
+
+    <a class="btn btn-primary mt-2" href="{{ path('app_main') }}">Retour</a>
+    </div>
 {% endblock %}

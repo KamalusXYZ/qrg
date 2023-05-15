@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle question + {% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="mb-5">Ajouter une nouvelle question</h1>
+        <div class="container bg-info rounded">
+            Insérer une image puis modifier là si besoin.
+            <form action="{{ path('app_upload_file') }}" method="post" enctype="multipart/form-data" name="frmMain">
+
+                <p>Téléverser un fichier</p>
+                <p><input name="file" type="file"></p>
+
+                <p><input type="submit" name="Submit" value="Envoyer"></p>
+            </form>
+        </div>
+{#        {{ include('question/_form.html.twig') }}#}
+    </div>
+
+{% endblock %}

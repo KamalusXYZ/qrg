@@ -39,20 +39,83 @@ class QuestionRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Question[] Returns an array of Question objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('q')
-//            ->andWhere('q.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('q.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   /**
+    * @return Question[] Returns an array of Question objects
+    */
+   public function findToValidQuestion(): array
+   {
+       return $this->createQueryBuilder('q')
+           ->andWhere('q.valid = :val')
+           ->setParameter('val', false)
+           ->andWhere('q.checked = :val2')
+           ->setParameter('val2', false)
+           ->orderBy('q.id', 'ASC')
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+
+         /**
+    * @return Question[] Returns an array of Question objects
+    */
+    public function findMyQuestions($user): array
+    {
+               
+        return $this->createQueryBuilder('q')
+        ->andWhere(':val MEMBER OF q.users')
+        ->setParameter('val', $user)
+        ->orderBy('q.checked', 'ASC')
+        ->getQuery()
+        ->getResult();
+    }
+
+      /**
+    * @return Question[] Returns an array of Question objects
+    */
+    public function findMyQuestionsPending($user): array
+    {
+               
+        return $this->createQueryBuilder('q')
+        ->andWhere(':val MEMBER OF q.users')
+        ->setParameter('val', $user)
+        ->andWhere('q.checked = :val2')
+        ->setParameter('val2', false)
+        ->orderBy('q.checked', 'ASC')
+        ->getQuery()
+        ->getResult();
+    }
+
+          /**
+    * @return Question[] Returns an array of Question objects
+    */
+    public function findMyQuestionsValid($user): array
+    {
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.user = :val')
+            ->setParameter('val', $user)
+            ->andWhere('q.valid = :val2')
+            ->setParameter('val2', true)
+            ->orderBy('q.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+              /**
+    * @return Question[] Returns an array of Question objects
+    */
+    public function findMyQuestionsDenied($user): array
+    {
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.user = :val')
+            ->setParameter('val', $user)
+            ->andWhere('q.denied = :val3')
+            ->setParameter('val3', true)
+            ->orderBy('q.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Question
 //    {

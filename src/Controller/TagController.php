@@ -24,6 +24,7 @@ class TagController extends AbstractController
     #[Route('/new', name: 'app_tag_new', methods: ['GET', 'POST'])]
     public function new(Request $request, TagRepository $tagRepository): Response
     {
+        $tags = $tagRepository->findAll();
         $tag = new Tag();
         $form = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
@@ -31,12 +32,15 @@ class TagController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $tagRepository->save($tag, true);
 
-            return $this->redirectToRoute('app_tag_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_tag_new', ['tag' => $tag,
+            'form' => $form,
+            'tags' => $tags,], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('tag/new.html.twig', [
             'tag' => $tag,
             'form' => $form,
+            'tags' => $tags,
         ]);
     }
 

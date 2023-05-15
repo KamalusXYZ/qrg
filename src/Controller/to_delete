@@ -1,0 +1,134 @@
+<?php
+
+namespace App\Controller;
+
+use App\Entity\Question;
+use App\Enum\QuestionTypeEnum;
+use App\Form\QuestionType;
+use App\Repository\QuestionRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
+#[IsGranted("ROLE_PUBLISHER")]
+#[Route('/question')]
+class QuestionController extends AbstractController
+{
+    #[Route('/', name: 'app_question_index', methods: ['GET'])]
+    public function index(QuestionRepository $questionRepository): Response
+    {
+        return $this->render('question/index.html.twig', [
+            'questions' => $questionRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/new', name: 'app_question_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, QuestionRepository $questionRepository, SluggerInterface $slugger): Response
+    {
+        $attachmentPath = null;
+        $question = new Question();
+        $form = $this->createForm(QuestionType::class, $question);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $question->setCreateDateTime(date_create('now'));
+            $attachmentPath = $form->get('attachmentPath')->getData();
+            $imageGD = imagecreatefrompng($attachmentPath);
+
+            if ($attachmentPath) {
+                $originalFilename = pathinfo($attachmentPath->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = "img" . '-' . uniqid() . '.' . $attachmentPath->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $attachmentPath->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $question->setAttachmentPath($newFilename);
+            }
+
+            $questionRepository->save($question, true);
+
+
+            return $this->redirectToRoute('app_question_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('question/new.html.twig', [
+            'question' => $question,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_question_show', methods: ['GET'])]
+    public function show(Question $question): Response
+    {
+        return $this->render('question/show.html.twig', [
+            'question' => $question,
+        ]);
+    }
+
+    #[Route('/{id}/edit', name: 'app_question_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Question $question, QuestionRepository $questionRepository): Response
+    {
+        $form = $this->createForm(QuestionType::class, $question);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $questionRepository->save($question, true);
+
+            return $this->redirectToRoute('app_question_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('question/edit.html.twig', [
+            'question' => $question,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_question_delete', methods: ['POST'])]
+    public function delete(Request $request, Question $question, QuestionRepository $questionRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $question->getId(), $request->request->get('_token'))) {
+            $questionRepository->remove($question, true);
+        }
+
+        return $this->redirectToRoute('app_question_index', [], Response::HTTP_SEE_OTHER);
+    }
+    #[Route('/upload_file', name: 'app_upload_file')]
+    public function uploadFile(QuestionRepository $questionRepository): Response
+    {
+        dd('test');
+        $pixelRate = 0;
+        $uploadPath = "C:\wamp64\www\qrg\public\uploads\images\\";
+        $question = $questionRepository->find('1')->setAttachmentPath("image.png");
+        $extension = explode('/',  $_FILES['fileUpload']['type']);
+
+
+        if (trim($_FILES["fileUpload"]["tmp_name"]) != "" and $_FILES["fileUpload"]["type"] == "images/png") {
+
+            move_uploaded_file($_FILES["fileUpload"]["tmp_name"], $uploadPath . basename("image.".$extension[1]));
+            $im = imagecreatefrompng("C:\wamp64\www\qrg\public\uploads\images\image.".$extension[1]);
+            imagefilter($im,   IMG_FILTER_PIXELATE, $pixelRate );
+            imagepng($im,"C:\wamp64\www\qrg\public\uploads\images\image2.png" );
+            $questionRepository->save($question, true);
+
+        }
+        return $this->render('main/index.html.twig', [
+            'pixelRate' => $pixelRate
+        ]);
+
+    }
+}

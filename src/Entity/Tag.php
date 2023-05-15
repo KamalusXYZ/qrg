@@ -16,7 +16,7 @@ class Tag
     private ?int $id = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $name = null;
+    private ?string $name = null;
 
     #[ORM\ManyToMany(targetEntity: Question::class, mappedBy: 'tags')]
     private Collection $questions;
@@ -26,17 +26,22 @@ class Tag
         $this->questions = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->getId();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?int
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setName(?int $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 

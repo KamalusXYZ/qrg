@@ -58,11 +58,14 @@ class Question
     #[ORM\OneToMany(mappedBy: 'question', targetEntity: Answer::class)]
     private Collection $answers;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $attachmentModified = null;
-
     #[ORM\Column(nullable: true)]
     private ?int $pixelationRate = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $denied = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $checked = null;
 
     public function __construct()
     {
@@ -299,18 +302,6 @@ class Question
         return $this;
     }
 
-    public function getAttachmentModified(): ?string
-    {
-        return $this->attachmentModified;
-    }
-
-    public function setAttachmentModified(?string $attachmentModified): self
-    {
-        $this->attachmentModified = $attachmentModified;
-
-        return $this;
-    }
-
     public function getPixelationRate(): ?int
     {
         return $this->pixelationRate;
@@ -319,6 +310,30 @@ class Question
     public function setPixelationRate(?int $pixelationRate): self
     {
         $this->pixelationRate = $pixelationRate;
+
+        return $this;
+    }
+
+    public function isDenied(): ?bool
+    {
+        return $this->denied;
+    }
+
+    public function setDenied(?bool $denied): self
+    {
+        $this->denied = $denied;
+
+        return $this;
+    }
+
+    public function isChecked(): ?bool
+    {
+        return $this->checked;
+    }
+
+    public function setChecked(?bool $checked): self
+    {
+        $this->checked = $checked;
 
         return $this;
     }

@@ -4,27 +4,13 @@
 
 {% block body %}
     <div style="image-rendering: smooth;" class="container flex-wrap justify-content-center align-items-center d-flex">
-        <form action="{{ path('app_upload') }}" method="post" enctype="multipart/form-data" name="frmMain">
-
-            <p>Téléverser un fichier</p>
-            <p><input name="fileUpload" type="file"></p>
-
-            <p><input type="submit" name="Submit" value="Envoyer"></p>
-        </form>
-
+        <div class="bg-primary w-100 rounded" style="height:450px">
+        Actualités!
+        </div>
+        <div class="bg-primary w-100 rounded mt-2 text-center" style="height:100%">
+        <button class="m-2  btn btn-success text-center">JOUER</button>
+        </div>
     </div>
-    <div class="container">
-        <form>
-            <input type="range" name="pixel" min="0" max="25" step="3" id="pixel" value="{{ pixelRate }}">
-            <input type="submit" formaction="{{ path('app_modify') }}">
-
-        </form>
-    </div>
-
-    <div class="container">
-        <img src="{{ asset('uploads/images/image2.png') }}" alt="error">
-    </div>
-
 
 
 {% endblock %}

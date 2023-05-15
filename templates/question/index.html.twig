@@ -1,24 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Question index{% endblock %}
+{% block title %}Question | Liste à contrôler{% endblock %}
 
 {% block body %}
-    <h1>Question index</h1>
 
+<div class="container">
+    <h1>Liste des questions en attente d'être vérifiées</h1>
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>CreateDateTime</th>
-                <th>Text</th>
-                <th>TrueAnswer</th>
-                <th>WrongAnswer1</th>
-                <th>WrongAnswer2</th>
-                <th>WrongAnswer3</th>
+                <th>Numéro de la question</th>
+                <th>Date de soumission</th>
+                <th>Contenu</th>
                 <th>Type</th>
-                <th>AttachmentPath</th>
                 <th>Valid</th>
-                <th>IsDeleted</th>
+                <th>Traité?</th>
+                <th>Publieur</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -28,14 +25,12 @@
                 <td>{{ question.id }}</td>
                 <td>{{ question.createDateTime ? question.createDateTime|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ question.text }}</td>
-                <td>{{ question.trueAnswer }}</td>
-                <td>{{ question.wrongAnswer1 }}</td>
-                <td>{{ question.wrongAnswer2 }}</td>
-                <td>{{ question.wrongAnswer3 }}</td>
                 <td>{{ question.type }}</td>
-                <td>{{ question.attachmentPath }}</td>
                 <td>{{ question.valid ? 'Yes' : 'No' }}</td>
-                <td>{{ question.isDeleted ? 'Yes' : 'No' }}</td>
+                <td>{{ question.checked ? 'Yes' : 'No' }}</td>
+                <td>{% for user in question.users %}
+                    {{user.username}}
+                    {% endfor %}</td>
                 <td>
                     <a href="{{ path('app_question_show', {'id': question.id}) }}">show</a>
                     <a href="{{ path('app_question_edit', {'id': question.id}) }}">edit</a>
@@ -48,6 +43,6 @@
         {% endfor %}
         </tbody>
     </table>
+</div>
 
-    <a href="{{ path('app_question_new') }}">Create new</a>
 {% endblock %}
