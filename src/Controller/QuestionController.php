@@ -87,6 +87,8 @@ class QuestionController extends AbstractController
         $question = new Question();
         $question->addUser($users);
         $question->setCreateDateTime(date_create('now'));
+        $question->setValid(false);
+        $question->setChecked(false);
         $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);
 
@@ -111,8 +113,7 @@ class QuestionController extends AbstractController
             }
 
     $question->setAttachmentPath($newFilename);
-    $question->setValid(false);
-    $question->setChecked(false);
+
     copy($this->getParameter('images_directory').$question->getAttachmentPath() , $this->getParameter('images_modified_directory').$question->getAttachmentPath());
     }
 

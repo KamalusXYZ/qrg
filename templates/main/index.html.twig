@@ -3,13 +3,15 @@
 {% block title %}Home | QuizRetroGaming{% endblock %}
 
 {% block body %}
-    <div style="image-rendering: smooth;" class="container flex-wrap justify-content-center align-items-center d-flex">
-        <div class="bg-primary w-100 rounded" style="height:450px">
-        Actualités!
+    <div class="container flex-wrap justify-content-center align-items-center d-flex">
+        <div class="w-100 rounded-bottom" style="height:450px;image-rendering: smooth;background: center / cover no-repeat url('resources/bg_main.jpg');">
         </div>
         <div class="bg-primary w-100 rounded mt-2 text-center" style="height:100%">
-        <button class="m-2  btn btn-success text-center">JOUER</button>
+        <form>
+        <input class="m-2  btn btn-success btn font-weight-bold" type="submit" formaction="{{ path('app_game_load') }}" value="Jouer"> 
+        </form>
         </div>
+
     </div>
 
 

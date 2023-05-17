@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\Entity\Game;
 use App\Form\GameType;
 use App\Repository\GameRepository;
+use App\Repository\QuestionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[Route('/game')]
 class GameController extends AbstractController
@@ -37,6 +39,23 @@ class GameController extends AbstractController
         return $this->renderForm('game/new.html.twig', [
             'game' => $game,
             'form' => $form,
+        ]);
+    }
+    
+    #[Route('/load', name: 'app_game_load', methods: ['GET', 'POST'])]
+    public function load(Request $request, GameRepository $gameRepository,QuestionRepository $questionRepository, UserInterface $user): Response
+    {
+        $game = new Game($user);
+        $game->setUser($user);
+        $game->setCreateDateTime(date_create('now'));
+        $selectedQuestions = $questionRepository->findRandomQuestion(10, $user->getId());
+        foreach($selectedQuestions as $question){
+            $game->addQuestion($question);
+        }
+        $gameRepository->save($game, true);
+
+        return $this->renderForm('game/new.html.twig', [
+
         ]);
     }
 

@@ -1,11 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Game{% endblock %}
+{% block title %}Home | QuizRetroGaming{% endblock %}
 
 {% block body %}
-    <h1>Create new Game</h1>
+    <div class="my-2 border rounded container flex-wrap justify-content-center align-items-center d-flex">
+        <div class="w-100 rounded-bottom" style="height:450px;image-rendering: smooth;">
+        test
+        </div>
+        <div class="bg-primary w-100 rounded mt-2 text-center" style="height:100%">
+        </div>
+    </div>
 
-    {{ include('game/_form.html.twig') }}
-
-    <a href="{{ path('app_game_index') }}">back to list</a>
 {% endblock %}

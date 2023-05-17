@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Question;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @extends ServiceEntityRepository<Question>
@@ -45,7 +46,7 @@ class QuestionRepository extends ServiceEntityRepository
    public function findToValidQuestion(): array
    {
        return $this->createQueryBuilder('q')
-           ->andWhere('q.valid = :val')
+           ->where('q.valid = :val')
            ->setParameter('val', false)
            ->andWhere('q.checked = :val2')
            ->setParameter('val2', false)
@@ -62,7 +63,7 @@ class QuestionRepository extends ServiceEntityRepository
     {
                
         return $this->createQueryBuilder('q')
-        ->andWhere(':val MEMBER OF q.users')
+        ->where(':val MEMBER OF q.users')
         ->setParameter('val', $user)
         ->orderBy('q.checked', 'ASC')
         ->getQuery()
@@ -80,7 +81,7 @@ class QuestionRepository extends ServiceEntityRepository
         ->setParameter('val', $user)
         ->andWhere('q.checked = :val2')
         ->setParameter('val2', false)
-        ->orderBy('q.checked', 'ASC')
+        ->orderBy('q.id', 'DESC')
         ->getQuery()
         ->getResult();
     }
@@ -115,6 +116,35 @@ class QuestionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+    }
+
+                  /**
+    * @return Question[] Returns an array of Question objects
+    */
+    public function findRandomQuestion(INT $nb,INT $idUser): array
+    {
+        $resultRaw = 
+         $this->createQueryBuilder('q')
+        ->join('q.users', 'u')
+        ->where('q.valid = :val2')
+        ->setParameter('val2', true)
+        ->andWhere('u.id != :id')
+        ->setParameter('id', $idUser)
+        ->getQuery()
+        ->getResult();
+
+        $result = [];
+        if(count($resultRaw) >= $nb){
+            $randKey = array_rand($resultRaw, $nb);
+
+            foreach($randKey as $key){
+                array_push($result, $resultRaw[$key]);
+            }
+            shuffle($result);
+        }
+       
+
+    return $result;
     }
 
 //    public function findOneBySomeField($value): ?Question
