@@ -39,6 +39,37 @@ class GameRepository extends ServiceEntityRepository
         }
     }
 
+    
+                  /**
+    * @return Question[] Returns an array of Question objects
+    */
+    public function findRandomQuestion(INT $nb,INT $idUser): array
+    {
+        $resultRaw = 
+         $this->createQueryBuilder('q')
+        ->join('q.users', 'u')
+        ->where('q.valid = :val2')
+        ->setParameter('val2', true)
+        ->andWhere('u.id != :id')
+        ->setParameter('id', $idUser)
+        ->getQuery()
+        ->getResult();
+        shuffle($resultRaw);
+
+        $result = [];
+
+        if(count($resultRaw) >= $nb){
+            $randKey = array_rand($resultRaw, $nb);
+
+            foreach($randKey as $key){
+                array_push($result, $resultRaw[$key]);
+            }
+
+        };
+        dd($result);
+    return $result;
+    }
+
 //    /**
 //     * @return Game[] Returns an array of Game objects
 //     */

@@ -48,16 +48,44 @@ class GameController extends AbstractController
         $game = new Game($user);
         $game->setUser($user);
         $game->setCreateDateTime(date_create('now'));
-        $selectedQuestions = $questionRepository->findRandomQuestion(10, $user->getId());
-        foreach($selectedQuestions as $question){
+        $questions = $questionRepository->findRandomQuestion(10, $user->getId());
+        foreach($questions as $question){
             $game->addQuestion($question);
+            // dd($game);
+            
         }
         $gameRepository->save($game, true);
 
-        return $this->renderForm('game/new.html.twig', [
+        $count = 1;
 
-        ]);
+        return $this->redirectToRoute('app_game_play', ['id' => $game->getId(), 'count' => $count], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/play/{id}/turn{count}', name: 'app_game_play', methods: ['GET', 'POST'])]
+    public function play(Request $request, GameRepository $gameRepository, UserInterface $user, $id, $count): Response
+    {
+            $count += 1;
+            $game = $gameRepository->find($id);
+            $step = $game->getQuestions();
+                
+            return $this->renderForm('game/new.html.twig', [
+                'game' => $game,
+                'question'=> $step[$count-2],
+                'count' =>$count,
+            ]);
+        
+    }
+
+    #[Route('/play/{id}/turn{count}', name: 'app_game_next_turn', methods: ['GET', 'POST'])]
+    public function nextTurn(Request $request, GameRepository $gameRepository, UserInterface $user, $id, $count): Response
+    {
+
+        $game = $gameRepository->find($id);
+        return $this->redirectToRoute('app_game_play', ['id' => $game->getId(), 'count' => $count], Response::HTTP_SEE_OTHER);
+
+    }
+
+
 
     #[Route('/{id}', name: 'app_game_show', methods: ['GET'])]
     public function show(Game $game): Response

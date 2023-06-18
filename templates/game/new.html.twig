@@ -5,7 +5,29 @@
 {% block body %}
     <div class="my-2 border rounded container flex-wrap justify-content-center align-items-center d-flex">
         <div class="w-100 rounded-bottom" style="height:450px;image-rendering: smooth;">
-        test
+        {{game.id}} </br>
+        {% if game %}
+        {% for question in game.questions %}
+            <ul>
+            <li>{{ question.text }}</li>
+            </ul>
+        {% endfor %}
+
+
+            <div class="container flex-wrap justify-content-center align-items-center d-flex">
+        <div class="w-100 rounded-bottom" style="height:450px;image-rendering: smooth;background: center / cover no-repeat url('resources/bg_main.jpg');">
+        </div>
+        <div class="bg-primary w-100 rounded mt-2 text-center" style="height:100%">
+        <form>
+        <input class="m-2  btn btn-success btn font-weight-bold" type="submit" formaction="{{ path('app_game_next_turn', {'id': game.id, 'count': count}) }}" value="SUIVANT"> 
+        </form>
+        </div>
+
+    </div>
+
+
+        {% endif %}
+        
         </div>
         <div class="bg-primary w-100 rounded mt-2 text-center" style="height:100%">
         </div>

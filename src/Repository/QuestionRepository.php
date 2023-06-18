@@ -142,7 +142,6 @@ class QuestionRepository extends ServiceEntityRepository
             }
             shuffle($result);
         }
-       
 
     return $result;
     }
